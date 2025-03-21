@@ -1,15 +1,26 @@
-document.getElementById("contact-form").addEventListener("submit", function(event) {
-    event.preventDefault();
+let lastScrollTop = 0;
+const header = document.querySelector("header");
+const timeText = document.querySelector(".time");
 
-    emailjs.send("service_906bj2d", "template_etgc87b", {
-        name: document.getElementById("name").value,
-        email: document.getElementById("email").value,
-        message: document.getElementById("message").value
-    })
-    .then(function(response) {
-        alert("Message sent successfully!");
-        document.getElementById("contact-form").reset(); // Reset form setelah terkirim
-    }, function(error) {
-        alert("Failed to send message. Please try again.");
-    });
+window.addEventListener("scroll", () => {
+  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+  if (scrollTop > lastScrollTop) {
+    header.classList.add("hidden");
+  } else {
+    header.classList.remove("hidden");
+  }
+
+  lastScrollTop = scrollTop;
 });
+
+// Set waktu sesuai dengan Sulawesi Tengah (Palu) GMT+8
+const now = new Date();
+const paluTime = now.toLocaleString("en-US", { timeZone: "Asia/Makassar" });
+const [date, time] = paluTime.split(", ");
+timeText.textContent = `${time} GMT+8`;
+
+const yearText = document.getElementById("year");
+const year = new Date().getFullYear();
+
+yearText.textContent = year;
